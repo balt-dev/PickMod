@@ -1,13 +1,13 @@
 package net.pickmod.mixin;
 
-import net.minecraft.client.sound.SoundInstance;
+import net.minecraft.item.Items;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
+import net.pickmod.CooldownToast;
 import net.pickmod.PickMod;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.ChatHud;
-import net.minecraft.client.toast.SystemToast;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import org.spongepowered.asm.mixin.Mixin;
@@ -26,16 +26,13 @@ public class ChestCooldownMixin {
     public void onAddMessage(Text message, int messageId, int timestamp, boolean refresh, CallbackInfo ci) {
         if (Objects.equals(Text.Serializer.toJson(message), chestMessageAsJson) && PickMod.config.showChest) {
             PickMod.LOGGER.info("Chest found!");
-            new Thread(() -> {
-                try {
-                    Thread.sleep(480000); //8 minutes in milliseconds
-                    client.getToastManager().add(new SystemToast(SystemToast.Type.PERIODIC_NOTIFICATION,Text.of("⛏"), new TranslatableText("text.pickmod.chest_notification")));
-                    client.player.playSound(SoundEvents.BLOCK_NOTE_BLOCK_PLING, SoundCategory.PLAYERS, 2.0f, 1.0f);
-                    PickMod.LOGGER.info("Chest cooldown expired!");
-                } catch (InterruptedException e) {
-                    PickMod.LOGGER.warn("Chest thread interrupted!");
+            CooldownToast chestToast = new CooldownToast(Items.CHEST.getDefaultStack(), new TranslatableText("text.pickmod.chest_title"), 480000L, CooldownToast.DrawDirection.BACKWARD, (()->{
+                if (client.player != null) {
+                    client.player.playSound(Registry.SOUND_EVENT.get(new Identifier(PickMod.config.chestCooldownExpireSound.getId())), SoundCategory.PLAYERS, 2.0f, PickMod.config.chestCooldownExpirePitch);
                 }
-            }).start();
+                PickMod.LOGGER.info("Chest cooldown expired!");
+            }));
+            client.getToastManager().add(chestToast);
         }
     }
 }
