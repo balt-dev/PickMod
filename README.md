@@ -1,5 +1,7 @@
 # PickMod
 
+Ask me to put this on Forge and I'm stealing your ribcage.
+
 ## Features
 
 - Removes unacked player action error message in logs
