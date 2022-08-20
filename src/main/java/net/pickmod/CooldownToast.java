@@ -54,9 +54,9 @@ public class CooldownToast implements Toast {
         manager.getClient().textRenderer.draw(matrices, this.title, 30.0f, 7.0f, 0xFFFFFFFF);
         String timeLeft = DurationFormatUtils.formatDurationWords(Math.max(this.delta-currentTime,0), true, true);
         timeLeft = timeLeft.replaceAll(" ?days ?","d")
-                .replaceAll(" ?hours ?","h")
-                .replaceAll(" ?minutes ?","m")
-                .replaceAll(" ?seconds ?","s") + " left";
+                .replaceAll(" ?hours? ?","h")
+                .replaceAll(" ?minutes? ?","m")
+                .replaceAll(" ?seconds? ?","s") + " left";
         manager.getClient().textRenderer.draw(matrices, Text.of(timeLeft), 30.0f, 18.0f, 0xFFFFFF);
         manager.getClient().getItemRenderer().renderInGui(this.stack, 8, 8);
         if (f >= 1 && !hasRunPost) {
