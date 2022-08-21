@@ -10,3 +10,4 @@ Made for plot 50644 on DiamondFire.
 - Sends a toast to display your chest cooldown
 - Shows an icon over locked items
 - Keybind to quickly send @up
+- Display balance in place of hunger bar
