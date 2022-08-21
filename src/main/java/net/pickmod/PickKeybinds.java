@@ -5,7 +5,11 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
+import net.pickmod.mixin.PlayerListHudFooterAccessor;
 import org.lwjgl.glfw.GLFW;
+
+import java.util.List;
 
 public class PickKeybinds {
     private static KeyBinding quickUpKeyBinding;
@@ -19,7 +23,9 @@ public class PickKeybinds {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (quickUpKeyBinding.wasPressed()) {
                 assert client.player != null;
-                client.player.sendChatMessage("@up");
+                if (PickMod.getBalance() != null) {
+                    client.player.sendChatMessage("@up");
+                }
             }
         });
     }

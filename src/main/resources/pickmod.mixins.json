@@ -8,7 +8,9 @@
   "client": [
     "ChestCooldownMixin",
     "RemoveUnackedBlockLimitMixin",
-    "ItemDisplayLockMixin"
+    "ItemDisplayLockMixin",
+    "PlayerListHudFooterAccessor",
+    "InGameHudMixin"
   ],
   "injectors": {
     "defaultRequire": 1
