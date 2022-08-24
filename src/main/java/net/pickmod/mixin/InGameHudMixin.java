@@ -43,7 +43,6 @@ public abstract class InGameHudMixin {
     )
     private void renderBalance(MatrixStack matrices, CallbackInfo ci) {
         if (PickMod.getBalance() != null) {
-
             int xPosition = this.scaledWidth / 2 + 89 - this.client.textRenderer.getWidth(PickMod.getBalance());
             int yPosition = this.scaledHeight - 39;
             this.client.textRenderer.drawWithShadow(matrices, PickMod.getBalance(), xPosition, yPosition, 0xFFFFFFFF);

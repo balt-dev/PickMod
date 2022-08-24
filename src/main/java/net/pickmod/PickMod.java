@@ -29,7 +29,7 @@ public class PickMod implements ModInitializer {
 		Text hudFooter = ((PlayerListHudFooterAccessor) client.inGameHud.getPlayerListHud()).getFooter();
 		if (hudFooter != null) { //this is hardcoded and will need updating as pickaxe updates
 			List<Text> hudFooterSiblings = hudFooter.getSiblings();
-			if (hudFooterSiblings.size() == 21) {
+			if (hudFooterSiblings.size() == 21 || hudFooterSiblings.size() == 19) {
 				if (Objects.equals(Text.Serializer.toJson(hudFooterSiblings.get(10)), "{\"color\":\"gold\",\"text\":\"⛀ \"}")) {
 					Collection<Text> textCollection = new ArrayList();
 					textCollection.add(hudFooterSiblings.get(10));
