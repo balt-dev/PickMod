@@ -11,3 +11,7 @@ Made for plot 50644 on DiamondFire.
 - Keybind to quickly send @up
 - Display balance in place of hunger bar
 - Saves inventory to a file every @backup
+- Replace XP bar with depth gauge
+- Periodic automatic backup
+
+![2022-08-25_06 36 41](https://user-images.githubusercontent.com/59123926/186654490-c245c8a8-dfd1-4ffe-bf2f-121521e98ece.png)
