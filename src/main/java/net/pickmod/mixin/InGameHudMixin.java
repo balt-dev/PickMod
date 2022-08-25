@@ -8,6 +8,7 @@ import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TextColor;
@@ -33,7 +34,7 @@ public abstract class InGameHudMixin extends DrawableHelper{
             slice = @Slice(from=@At(value="INVOKE_STRING", target = "Lnet/minecraft/util/profiler/Profiler;swap(Ljava/lang/String;)V", args = {"ldc=food"}))
     )
     private int preventForLoop(int oldValue) {
-        if (PickMod.getBalance() != null) {
+        if (PickMod.getBalance() != null && PickMod.config.replaceHungerWithBalance) {
             return 0;
         }
         return oldValue;
@@ -48,13 +49,15 @@ public abstract class InGameHudMixin extends DrawableHelper{
 
     @Inject(
             method = "renderStatusBars(Lnet/minecraft/client/util/math/MatrixStack;)V",
-            at=@At(value="INVOKE_STRING", target = "Lnet/minecraft/util/profiler/Profiler;swap(Ljava/lang/String;)V", args = {"ldc=food"})
+            at=@At(value="INVOKE_STRING", target = "Lnet/minecraft/util/profiler/Profiler;swap(Ljava/lang/String;)V", args = {"ldc=food"}, shift= At.Shift.AFTER)
     )
     private void renderBalance(MatrixStack matrices, CallbackInfo ci) {
-        if (PickMod.getBalance() != null) {
+        if (PickMod.getBalance() != null && PickMod.config.replaceHungerWithBalance) {
+            int old = RenderSystem.getShaderTexture(0);
             int xPosition = this.scaledWidth / 2 + 89 - this.client.textRenderer.getWidth(PickMod.getBalance());
             int yPosition = this.scaledHeight - 39;
             this.client.textRenderer.drawWithShadow(matrices, PickMod.getBalance(), xPosition, yPosition, 0xFFFFFFFF);
+            RenderSystem.setShaderTexture(0, old);
         }
     }
 
@@ -76,21 +79,42 @@ public abstract class InGameHudMixin extends DrawableHelper{
     )
     private int replaceLevel(ClientPlayerEntity instance) {
         if (PickMod.getBalance() != null && PickMod.config.replaceExperienceWithDepth) {
+            assert this.client.player != null;
             return Math.max(0,200 - (int)Math.floor(this.client.player.getY() < 199.90625 ? this.client.player.getY() : 200 /*handle grass path at top*/));
         }
-        return instance.experienceLevel; // TODO: replace xp bar texture with red boss bar
+        return instance.experienceLevel;
+    }
+
+    @Redirect(
+            method = "renderStatusBars(Lnet/minecraft/client/util/math/MatrixStack;)V",
+            at=@At(value="INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;getAir()I", ordinal = 0)
+    )
+    private int replaceAir(PlayerEntity instance) {
+        if (PickMod.getBalance() != null && PickMod.config.moveOxygenToBubbles) {
+            return (int)(PickMod.currentOxygen * 15);
+        }
+        return instance.getAir();
+    }
+
+    @Inject(
+            method = "renderStatusBars(Lnet/minecraft/client/util/math/MatrixStack;)V",
+            at=@At(value="HEAD")
+    )
+    private void fixTexture(MatrixStack matrices, CallbackInfo ci) {
+        RenderSystem.setShaderTexture(0, GUI_ICONS_TEXTURE);
     }
 
     //All this does is replace the XP bar with the depth bar.
-    //This is
     @Redirect(
             method = "renderExperienceBar(Lnet/minecraft/client/util/math/MatrixStack;I)V",
             at = @At(value="INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderTexture(ILnet/minecraft/util/Identifier;)V", ordinal = 0)
     )
     private void replaceTexture(int i, Identifier identifier) {
+
         if (PickMod.getBalance() != null && PickMod.config.replaceExperienceWithDepth) {
             RenderSystem.setShaderTexture(i, BARS_TEXTURE); //probably a bad way to use redirect but whatever lmao
         } else {
+
             RenderSystem.setShaderTexture(i, identifier);
         }
     }
@@ -126,5 +150,16 @@ public abstract class InGameHudMixin extends DrawableHelper{
             return Objects.requireNonNull(TextColor.parse("gray")).getRgb();
         }
         return oldColor;
+    }
+
+    //Fix texture
+    @Inject(
+            method = "renderExperienceBar(Lnet/minecraft/client/util/math/MatrixStack;I)V",
+            at = @At(value="INVOKE", target="Lnet/minecraft/util/profiler/Profiler;pop()V")
+    )
+    private void fixTexture(MatrixStack matrices, int x, CallbackInfo ci) {
+        if (PickMod.getBalance() != null && PickMod.config.replaceExperienceWithDepth) {
+            RenderSystem.setShaderTexture(0, DrawableHelper.GUI_ICONS_TEXTURE);
+        }
     }
 }

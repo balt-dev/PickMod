@@ -23,6 +23,7 @@ import java.util.Objects;
 
 public class PickMod implements ModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger("pickmod");
+	public static float currentOxygen = 20;
 	public static ModConfig config;
 	public static Text getBalance() { //this also works as "is the player on pickaxe" becuase i'm lazy
 		MinecraftClient client = MinecraftClient.getInstance();
