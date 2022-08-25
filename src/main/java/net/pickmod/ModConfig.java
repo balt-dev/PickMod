@@ -10,4 +10,10 @@ import net.minecraft.util.registry.Registry;
 public class ModConfig implements ConfigData {
     public boolean showLock = true;
     public boolean disableUnackedError = true;
+    public boolean replaceExperienceWithDepth = true;
+    @ConfigEntry.Gui.Tooltip
+    @ConfigEntry.BoundedDiscrete(min=0,max=12)
+    public long hoursBetweenAutoBackup = 0;
+    @ConfigEntry.Gui.Excluded
+    public long lastBackup = 0;
 }

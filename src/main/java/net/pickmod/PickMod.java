@@ -31,9 +31,7 @@ public class PickMod implements ModInitializer {
 			List<Text> hudFooterSiblings = hudFooter.getSiblings();
 			if (hudFooterSiblings.size() == 21 || hudFooterSiblings.size() == 19) {
 				if (Objects.equals(Text.Serializer.toJson(hudFooterSiblings.get(10)), "{\"color\":\"gold\",\"text\":\"⛀ \"}")) {
-					Collection<Text> textCollection = new ArrayList();
-					textCollection.add(hudFooterSiblings.get(10));
-					textCollection.add(hudFooterSiblings.get(9));
+					Collection<Text> textCollection = List.of(new Text[]{hudFooterSiblings.get(10), hudFooterSiblings.get(9)});
 					return Texts.join(textCollection,Text.of(""));
 				}
 			}
@@ -44,6 +42,7 @@ public class PickMod implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		PickKeybinds.register();
+		PeriodicBackup.register();
 		AutoConfig.register(ModConfig.class, Toml4jConfigSerializer::new);
 		config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
 	}

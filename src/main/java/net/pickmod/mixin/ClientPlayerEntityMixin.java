@@ -29,7 +29,7 @@ public class ClientPlayerEntityMixin {
         assert this.client.player != null;
         //will add more later
         if ("@backup".equals(message)) {
-            Path saveDirectory = FabricLoader.getInstance().getGameDir().resolve("pickaxe_backup.txt");
+            Path saveDirectory = FabricLoader.getInstance().getGameDir().resolve("pickaxe_backup-" + (System.currentTimeMillis() / 1000) + ".txt");
             String[] items = new String[41];
             PlayerInventory inventory = this.client.player.getInventory();
             for (int i = 0; i < inventory.size(); i++) {

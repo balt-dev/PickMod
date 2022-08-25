@@ -10,7 +10,8 @@
     "ItemDisplayLockMixin",
     "PlayerListHudFooterAccessor",
     "InGameHudMixin",
-    "ClientPlayerEntityMixin"
+    "ClientPlayerEntityMixin",
+    "BossBarHudMixin"
   ],
   "injectors": {
     "defaultRequire": 1
