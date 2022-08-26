@@ -1,6 +1,8 @@
 # PickMod
 
 ### Ask me to put this on Forge and I'm stealing your ribcage.
+- If you're using sporefreak's resource pack, install the [Fabulously Optimized](https://www.curseforge.com/minecraft/modpacks/fabulously-optimized) modpack. It's a fabric modpack that does everything OptiFine does, but better.
+
 [Requires Cloth Config API.](https://www.curseforge.com/minecraft/mc-mods/cloth-config)
  
 Made for plot 50644 on DiamondFire.
