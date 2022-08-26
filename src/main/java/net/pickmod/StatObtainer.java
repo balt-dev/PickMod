@@ -1,6 +1,7 @@
 package net.pickmod;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.text.Texts;
 import net.pickmod.mixin.PlayerListHudFooterAccessor;
@@ -13,8 +14,8 @@ import java.util.Objects;
 public class StatObtainer {
     public enum Stats {
         BALANCE,
-        BREAKING_POWER,
-        BREAKING_SPEED
+        BREAKING_SPEED,
+        RAD_PROTECTION
     }
     public static boolean isOnPickaxe() {
         return getStat(null) != null;
@@ -23,12 +24,17 @@ public class StatObtainer {
         return Texts.join(List.of(texts),Text.of(""));
     }
 
+    public static Text clipText(Text text, int beginIndex, int endIndex) {
+        String textContent = text.getString();
+        Style textStyle = text.getStyle();
+        return Text.of(textContent.substring(beginIndex, endIndex)).copy().fillStyle(textStyle);
+    }
     public static Text getStat(@Nullable Stats stat) {
         MinecraftClient client = MinecraftClient.getInstance();
         Text hudFooter = ((PlayerListHudFooterAccessor) client.inGameHud.getPlayerListHud()).getFooter();
         if (hudFooter != null) { //this is hardcoded and will need updating as pickaxe updates
             List<Text> hudFooterSiblings = hudFooter.getSiblings();
-            if (hudFooterSiblings.size() == 21 || hudFooterSiblings.size() == 19) {
+            if (hudFooterSiblings.size() == 22 || hudFooterSiblings.size() == 21 || hudFooterSiblings.size() == 19) {
                 if (Objects.equals(Text.Serializer.toJson(hudFooterSiblings.get(10)), "{\"color\":\"gold\",\"text\":\"⛀ \"}")) {
                     if (stat == null) return Text.of("");
                     switch (stat) {
@@ -39,11 +45,12 @@ public class StatObtainer {
                             int offset = hudFooterSiblings.size() - 19;
                             return joinTexts(hudFooterSiblings.get(12+offset),hudFooterSiblings.get(13+offset));
                         }
-                        case BREAKING_POWER -> {
+                        case RAD_PROTECTION -> {
+                            if (!Objects.equals(Text.Serializer.toJson(hudFooterSiblings.get(18)), "{\"color\":\"green\",\"text\":\"☄ \"}")) {
+                                return Text.of("");
+                            }
                             int offset = hudFooterSiblings.size() - 19;
-                            Text valueFix = hudFooterSiblings.get(16+offset);
-                            String vFixString = valueFix.getString();
-                            return joinTexts(hudFooterSiblings.get(15+offset),Text.of(vFixString.substring(0,vFixString.length()-1)).copy().fillStyle(valueFix.getStyle()));
+                            return joinTexts(hudFooterSiblings.get(15+offset),clipText(hudFooterSiblings.get(16+offset), 0, hudFooterSiblings.get(16+offset).getString().length() - 1));
                         }
                     }
                 }

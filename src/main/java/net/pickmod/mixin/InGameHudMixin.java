@@ -78,10 +78,10 @@ public abstract class InGameHudMixin extends DrawableHelper{
                 ), oxygenXPosition, balanceYPosition - 10, 0xFFFFFFFF);
             }
             int breakingSpeedXPosition = (this.scaledWidth / 2) + (89 + this.client.textRenderer.getWidth(Text.of(" ")) - this.client.textRenderer.getWidth(StatObtainer.getStat(StatObtainer.Stats.BREAKING_SPEED)));
-            //int breakingPowerXPosition = (this.scaledWidth / 2) + (89 - this.client.textRenderer.getWidth(StatObtainer.getStat(StatObtainer.Stats.BREAKING_POWER)));
+            int radProtectionXPosition = (this.scaledWidth / 2) + (89 - this.client.textRenderer.getWidth(StatObtainer.getStat(StatObtainer.Stats.RAD_PROTECTION)));
             this.client.textRenderer.drawWithShadow(matrices, StatObtainer.getStat(StatObtainer.Stats.BALANCE), balanceXPosition, balanceYPosition, 0xFFFFFFFF);
             this.client.textRenderer.drawWithShadow(matrices, StatObtainer.getStat(StatObtainer.Stats.BREAKING_SPEED), breakingSpeedXPosition, balanceYPosition-bubbleOffset-10, 0xFFFFFFFF);
-            //this.client.textRenderer.drawWithShadow(matrices, StatObtainer.getStat(StatObtainer.Stats.BREAKING_POWER), breakingPowerXPosition, balanceYPosition-bubbleOffset-20, 0xFFFFFFFF);
+            this.client.textRenderer.drawWithShadow(matrices, StatObtainer.getStat(StatObtainer.Stats.RAD_PROTECTION), radProtectionXPosition, balanceYPosition-bubbleOffset-20, 0xFFFFFFFF);
             RenderSystem.setShaderTexture(0, old);
         }
     }

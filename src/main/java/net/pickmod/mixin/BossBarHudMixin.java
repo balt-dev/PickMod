@@ -10,6 +10,8 @@ import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.pickmod.PickMod;
@@ -35,6 +37,9 @@ public abstract class BossBarHudMixin {
 
 
     @Shadow public abstract void clear();
+
+    @Shadow @Final private MinecraftClient client;
+
     @Inject(
             at = @At(value = "HEAD"),
             method = "render(Lnet/minecraft/client/util/math/MatrixStack;)V"
@@ -59,8 +64,12 @@ public abstract class BossBarHudMixin {
             if (depthMatcher.find()) {
                 addBar = !PickMod.config.replaceExperienceWithDepth;
             } else if (oxygenMatcher.find()) {
-                PickMod.LOGGER.info(Text.Serializer.toJson(bossBar.getName()));
+                PickMod.LOGGER.info(oxygenMatcher.group(1) + ", " + PickMod.currentOxygenHolder);
                 addBar = !PickMod.config.moveOxygenToBubbles;
+                if (Objects.equals(oxygenMatcher.group(1), "Breath") && Objects.equals(PickMod.currentOxygenHolder, "Tanks")) {
+                    assert this.client.player != null;
+                    this.client.player.playSound(SoundEvents.ENTITY_ITEM_BREAK, SoundCategory.PLAYERS, 2.0f, 1.0f);
+                }
                 PickMod.currentOxygenHolder = oxygenMatcher.group(1);
                 PickMod.currentOxygen = Float.parseFloat(oxygenMatcher.group(2));
             }

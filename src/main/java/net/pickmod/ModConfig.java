@@ -14,8 +14,8 @@ public class ModConfig implements ConfigData {
     public boolean replaceExperienceWithDepth = true;
     public boolean moveOxygenToBubbles = true;
     @ConfigEntry.Gui.Tooltip
-    @ConfigEntry.BoundedDiscrete(min=0,max=12)
-    public long hoursBetweenAutoBackup = 0;
+    @ConfigEntry.BoundedDiscrete(min=10,max=120)
+    public long minutesBetweenAutoBackup = 0;
     @ConfigEntry.Gui.Excluded
     public long lastBackup = 0;
     public void validatePostLoad() {

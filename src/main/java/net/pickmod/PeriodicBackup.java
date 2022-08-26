@@ -5,10 +5,10 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 public class PeriodicBackup {
     public static void register(){
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (PickMod.config.hoursBetweenAutoBackup != 0) {
+            if (PickMod.config.minutesBetweenAutoBackup != 0) {
                 long timeNow = System.currentTimeMillis();
                 assert client.player != null;
-                if (timeNow - PickMod.config.lastBackup > (PickMod.config.hoursBetweenAutoBackup * 3600000) && StatObtainer.isOnPickaxe()) {
+                if (timeNow - PickMod.config.lastBackup > (PickMod.config.minutesBetweenAutoBackup * 60000) && StatObtainer.isOnPickaxe()) {
                     new Thread(()->{
                         PickMod.config.lastBackup = timeNow;
                         try {
