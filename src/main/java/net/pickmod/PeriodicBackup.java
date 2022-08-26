@@ -8,7 +8,7 @@ public class PeriodicBackup {
             if (PickMod.config.hoursBetweenAutoBackup != 0) {
                 long timeNow = System.currentTimeMillis();
                 assert client.player != null;
-                if (timeNow - PickMod.config.lastBackup > (PickMod.config.hoursBetweenAutoBackup * 3600000) && PickMod.getBalance() != null) {
+                if (timeNow - PickMod.config.lastBackup > (PickMod.config.hoursBetweenAutoBackup * 3600000) && StatObtainer.isOnPickaxe()) {
                     new Thread(()->{
                         PickMod.config.lastBackup = timeNow;
                         try {

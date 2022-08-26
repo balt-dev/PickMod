@@ -12,6 +12,7 @@ import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 import net.minecraft.text.Texts;
 import net.pickmod.mixin.PlayerListHudFooterAccessor;
+import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,21 +25,8 @@ import java.util.Objects;
 public class PickMod implements ModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger("pickmod");
 	public static float currentOxygen = 20;
+	public static String currentOxygenHolder = "Breath";
 	public static ModConfig config;
-	public static Text getBalance() { //this also works as "is the player on pickaxe" becuase i'm lazy
-		MinecraftClient client = MinecraftClient.getInstance();
-		Text hudFooter = ((PlayerListHudFooterAccessor) client.inGameHud.getPlayerListHud()).getFooter();
-		if (hudFooter != null) { //this is hardcoded and will need updating as pickaxe updates
-			List<Text> hudFooterSiblings = hudFooter.getSiblings();
-			if (hudFooterSiblings.size() == 21 || hudFooterSiblings.size() == 19) {
-				if (Objects.equals(Text.Serializer.toJson(hudFooterSiblings.get(10)), "{\"color\":\"gold\",\"text\":\"⛀ \"}")) {
-					Collection<Text> textCollection = List.of(new Text[]{hudFooterSiblings.get(10), hudFooterSiblings.get(9)});
-					return Texts.join(textCollection,Text.of(""));
-				}
-			}
-		}
-		return null;
-	}
 
 	@Override
 	public void onInitialize() {

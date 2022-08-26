@@ -23,7 +23,7 @@ public class PickKeybinds {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (quickUpKeyBinding.wasPressed()) {
                 assert client.player != null;
-                if (PickMod.getBalance() != null) {
+                if (StatObtainer.isOnPickaxe()) {
                     client.player.sendChatMessage("@up");
                 }
             }

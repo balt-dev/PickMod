@@ -18,4 +18,7 @@ public class ModConfig implements ConfigData {
     public long hoursBetweenAutoBackup = 0;
     @ConfigEntry.Gui.Excluded
     public long lastBackup = 0;
+    public void validatePostLoad() {
+        moveOxygenToBubbles = moveOxygenToBubbles && replaceExperienceWithDepth;
+    }
 }
