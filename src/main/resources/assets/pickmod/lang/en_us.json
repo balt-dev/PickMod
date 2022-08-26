@@ -6,6 +6,8 @@
   "text.autoconfig.pickmod.option.hoursBetweenAutoBackup": "Time Between Auto @backup",
   "text.autoconfig.pickmod.option.replaceExperienceWithDepth": "Replace Experience With Depth",
   "text.autoconfig.pickmod.option.hoursBetweenAutoBackup.@Tooltip": "Set to 0 to turn off.",
+  "text.autoconfig.pickmod.option.replaceHungerWithBalance": "Replace Hunger With Stats",
+  "text.autoconfig.pickmod.option.moveOxygenToBubbles": "Move Oxygen To Stats",
   "category.pickmod.binds": "⛏Mod Keybinds",
   "key.pickmod.quickup": "Quick @up"
 }
