@@ -2,6 +2,7 @@
 
 ### Ask me to put this on Forge and I'm stealing your ribcage.
 - If you're using sporefreak's resource pack, install the [Fabulously Optimized](https://www.curseforge.com/minecraft/modpacks/fabulously-optimized) modpack. It's a fabric modpack that does everything OptiFine does, but better.
+  - If you're lazy and really don't care, just use [OptiFabric](https://www.curseforge.com/minecraft/mc-mods/optifabric). It'll allow OptiFine to run on Fabric, at the cost of probably a lot of things breaking. I'm not gonna help you if you do this.
 
 [Requires Cloth Config API.](https://www.curseforge.com/minecraft/mc-mods/cloth-config)
  
