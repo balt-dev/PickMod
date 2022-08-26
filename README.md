@@ -7,7 +7,7 @@
 
 [Requires Cloth Config API.](https://www.curseforge.com/minecraft/mc-mods/cloth-config)
  
-Releases past 1.4.x will be made on [Modrinth](https://modrinth.com/mod/pickmod/) when that's accepted. 
+Releases past 1.4.x are on [Modrinth](https://modrinth.com/mod/pickmod/) when that's accepted.\
 Made for plot 50644 on DiamondFire.
 
 ## Features
