@@ -64,7 +64,6 @@ public abstract class BossBarHudMixin {
             if (depthMatcher.find()) {
                 addBar = !PickMod.config.replaceExperienceWithDepth;
             } else if (oxygenMatcher.find()) {
-                PickMod.LOGGER.info(oxygenMatcher.group(1) + ", " + PickMod.currentOxygenHolder);
                 addBar = !PickMod.config.moveOxygenToBubbles;
                 if (Objects.equals(oxygenMatcher.group(1), "Breath") && Objects.equals(PickMod.currentOxygenHolder, "Tanks")) {
                     assert this.client.player != null;

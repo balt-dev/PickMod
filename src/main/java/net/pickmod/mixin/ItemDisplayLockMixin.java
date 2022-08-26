@@ -32,12 +32,11 @@ public class ItemDisplayLockMixin {
     @Inject(at = @At("TAIL"), method = "renderGuiItemOverlay(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/item/ItemStack;IILjava/lang/String;)V")
     public void renderGuiItemOverlay(TextRenderer renderer, ItemStack stack, int x, int y, String countLabel, CallbackInfo ci) {
         if (stack.getOrCreateNbt().contains("PublicBukkitValues") && PickMod.config.showLock) {
-            if (stack.getSubNbt("PublicBukkitValues").getFloat("hypercube:nodrop") == 1.0d) {
-                PickMod.LOGGER.debug("Rendering lock");
+            if (Objects.requireNonNull(stack.getSubNbt("PublicBukkitValues")).getFloat("hypercube:nodrop") == 1.0d) {
                 MatrixStack matrixStack = new MatrixStack();
                 matrixStack.translate(0.0, 0.0, zOffset + 200.0f);
                 VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
-                renderer.draw("⚓", (float)(x), (float)(y), TextColor.parse("dark_gray").getRgb(), true, matrixStack.peek().getPositionMatrix(), immediate, false, 0, LightmapTextureManager.MAX_LIGHT_COORDINATE);
+                renderer.draw("⚓", (float)(x), (float)(y), Objects.requireNonNull(TextColor.parse("dark_gray")).getRgb(), true, matrixStack.peek().getPositionMatrix(), immediate, false, 0, LightmapTextureManager.MAX_LIGHT_COORDINATE);
                 immediate.draw();
             }
         }
