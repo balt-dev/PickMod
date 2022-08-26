@@ -1,7 +1,7 @@
 # PickMod
 
 ### Ask me to put this on Forge and I'm stealing your ribcage.
-(Requires Cloth Config API.)[https://www.curseforge.com/minecraft/mc-mods/cloth-config]
+[Requires Cloth Config API.](https://www.curseforge.com/minecraft/mc-mods/cloth-config)
  
 Made for plot 50644 on DiamondFire.
 
