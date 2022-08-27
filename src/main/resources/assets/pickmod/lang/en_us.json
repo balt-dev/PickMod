@@ -5,7 +5,7 @@
   "text.autoconfig.pickmod.option.disableUnackedError": "Disable Unacknowledged Action Error",
   "text.autoconfig.pickmod.option.minutesBetweenAutoBackup": "Minutes Between Auto @backup",
   "text.autoconfig.pickmod.option.replaceExperienceWithDepth": "Replace Experience With Depth",
-  "text.autoconfig.pickmod.option.minutesBetweenAutoBackup.@Tooltip": "Set to 0 to turn off.",
+  "text.autoconfig.pickmod.option.minutesBetweenAutoBackup.@Tooltip": "Set to 9 to turn off.",
   "text.autoconfig.pickmod.option.replaceHungerWithBalance": "Replace Hunger With Stats",
   "text.autoconfig.pickmod.option.moveOxygenToBubbles": "Move Oxygen To Stats",
   "category.pickmod.binds": "⛏Mod Keybinds",
