@@ -46,10 +46,10 @@ public class StatObtainer {
                             return joinTexts(hudFooterSiblings.get(12+offset),hudFooterSiblings.get(13+offset));
                         }
                         case RAD_PROTECTION -> {
-                            if (!Objects.equals(Text.Serializer.toJson(hudFooterSiblings.get(18)), "{\"color\":\"green\",\"text\":\"☄ \"}")) {
+                            if (!Objects.equals(Text.Serializer.toJson(hudFooterSiblings.get(18+offset)), "{\"color\":\"green\",\"text\":\"☄ \"}")) {
                                 return Text.of("");
                             }
-                            return joinTexts(hudFooterSiblings.get(18+offset),clipText(hudFooterSiblings.get(19+offset), 0, hudFooterSiblings.get(16+offset).getString().length() - 1));
+                            return joinTexts(hudFooterSiblings.get(18+offset),clipText(hudFooterSiblings.get(19+offset), 0, hudFooterSiblings.get(19+offset).getString().length() - 1));
                         }
                     }
                 }
