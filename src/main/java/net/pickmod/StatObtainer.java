@@ -1,6 +1,8 @@
 package net.pickmod;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.text.Texts;
@@ -11,6 +13,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+import static net.pickmod.TextUtils.clipText;
+import static net.pickmod.TextUtils.joinTexts;
+
 public class StatObtainer {
     public enum Stats {
         BALANCE,
@@ -20,24 +25,15 @@ public class StatObtainer {
     public static boolean isOnPickaxe() {
         return getStat(null) != null;
     }
-    public static Text joinTexts(Text ... texts) {
-        return Texts.join(List.of(texts),Text.of(""));
-    }
-
-    public static Text clipText(Text text, int beginIndex, int endIndex) {
-        String textContent = text.getString();
-        Style textStyle = text.getStyle();
-        return Text.of(textContent.substring(beginIndex, endIndex)).copy().fillStyle(textStyle);
-    }
     public static Text getStat(@Nullable Stats stat) {
         MinecraftClient client = MinecraftClient.getInstance();
         Text hudFooter = ((PlayerListHudFooterAccessor) client.inGameHud.getPlayerListHud()).getFooter();
         if (hudFooter != null) { //this is hardcoded and will need updating as pickaxe updates
             List<Text> hudFooterSiblings = hudFooter.getSiblings();
-            if (hudFooterSiblings.size() == 24 || hudFooterSiblings.size() == 22 || hudFooterSiblings.size() == 21 || hudFooterSiblings.size() == 19) {
+            if (hudFooterSiblings.size() >= 19) {
                 if (Objects.equals(Text.Serializer.toJson(hudFooterSiblings.get(10)), "{\"color\":\"gold\",\"text\":\"⛀ \"}")) {
                     if (stat == null) return Text.of("");
-                    int offset = hudFooterSiblings.size() - (hudFooterSiblings.size() <= 21 ? 19 : 22);
+                    int offset = hudFooterSiblings.get(12).getString().contains("Entity limit:") ? 2 : 0;
                     switch (stat) {
                         case BALANCE -> {
                             return joinTexts(hudFooterSiblings.get(10), hudFooterSiblings.get(9));
