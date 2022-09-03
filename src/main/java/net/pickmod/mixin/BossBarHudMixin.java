@@ -28,6 +28,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.lang.Double.NaN;
+
 
 @Mixin(BossBarHud.class)
 public abstract class BossBarHudMixin {
@@ -44,8 +46,12 @@ public abstract class BossBarHudMixin {
             at = @At(value = "HEAD"),
             method = "render(Lnet/minecraft/client/util/math/MatrixStack;)V"
     )
-    public void resetOxygen(MatrixStack matrices, CallbackInfo ci){
-        if (bossBars.isEmpty()) PickMod.currentOxygen = 20f;
+    public void resetValues (MatrixStack matrices, CallbackInfo ci){
+        if (bossBars.isEmpty()) {
+            PickMod.currentOxygen = 20f;
+            PickMod.suitCharge = -1.0f;
+
+        }
     }
     @Redirect(
             at = @At(value = "INVOKE", target = "Ljava/util/Map;values()Ljava/util/Collection;", ordinal = 0),
@@ -53,26 +59,67 @@ public abstract class BossBarHudMixin {
     )
     public Collection<ClientBossBar> redirectValues(@SuppressWarnings("rawtypes") Map instance) {
         Pattern depthPattern = Pattern.compile("Depth: \\d+m - @up to go back");
-        Pattern oxygenPattern = Pattern.compile("‹< O₂ (?:\\| Tanks: EMPTY )?\\| (.+): (\\d+(?:\\.\\d)?)s >›");
+        Pattern oxygenPattern = Pattern.compile("‹< O₂ (?:\\| Tanks: EMPTY )?(?:\\| (.+): (\\d+(?:\\.\\d)?)s )?>›");
+        Pattern miningPattern = Pattern.compile("Mining\\.\\.\\. \\((\\d+(?:\\.\\d+)?)%\\)");
+        Pattern chargePattern = Pattern.compile("Suit Charge: ⚡ (\\d+(?:\\.\\d)?)/10");
         Collection<ClientBossBar> filteredValues = new ArrayList<>();
+        boolean miningFound = false;
+        boolean chargeFound = false;
         for (Object value : instance.values()) {
             ClientBossBar bossBar = (ClientBossBar) value;
             String barName = bossBar.getName().getString();
             Matcher depthMatcher = depthPattern.matcher(barName);
             Matcher oxygenMatcher = oxygenPattern.matcher(barName);
+            Matcher miningMatcher = miningPattern.matcher(barName);
+            Matcher chargeMatcher = chargePattern.matcher(barName);
             boolean addBar = true;
             if (depthMatcher.find()) {
-                addBar = !PickMod.config.replaceExperienceWithDepth;
+                addBar = !PickMod.config.visualTweaks.replaceExperienceWithDepth;
             } else if (oxygenMatcher.find()) {
-                addBar = !PickMod.config.moveOxygenToBubbles;
+                addBar = !PickMod.config.visualTweaks.moveOxygenToBubbles;
                 if (Objects.equals(oxygenMatcher.group(1), "Breath") && Objects.equals(PickMod.currentOxygenHolder, "Tanks")) {
                     assert this.client.player != null;
                     this.client.player.playSound(SoundEvents.ENTITY_ITEM_BREAK, SoundCategory.PLAYERS, 2.0f, 1.0f);
                 }
-                PickMod.currentOxygenHolder = oxygenMatcher.group(1);
-                PickMod.currentOxygen = Float.parseFloat(oxygenMatcher.group(2));
+                try {
+                    PickMod.currentOxygenHolder = oxygenMatcher.group(1);
+                    PickMod.currentOxygen = Float.parseFloat(oxygenMatcher.group(2));
+                } catch(IndexOutOfBoundsException | NullPointerException e) {
+                    PickMod.currentOxygenHolder = "Tanks";
+                    PickMod.currentOxygen = 0f;
+                }
+            } else if (chargeMatcher.find()) {
+                chargeFound = true;
+                addBar = !PickMod.config.visualTweaks.moveChargeToArmor;
+                PickMod.suitCharge = Float.parseFloat(chargeMatcher.group(1));
+            }/* else if (miningMatcher.find()) {
+                miningFound = true;
+                if (bossBar.getName() != PickMod.miningLastName) {
+                    if (PickMod.miningLastChecked != 0) {
+                        double deltaTime = ((double) (System.currentTimeMillis() - PickMod.miningLastChecked)) / 1000;
+                        PickMod.miningPercentageMovingAverage[0] = Double.parseDouble(miningMatcher.group(1));
+                        double deltaMining = (Arrays.stream(PickMod.miningPercentageMovingAverage).average().getAsDouble() - PickMod.miningPercentageLastMovingAverage) / 100;
+                        double secondsLeft = (double) (deltaTime / deltaMining);
+                        PickMod.LOGGER.info(deltaTime + " " + deltaMining + " " + secondsLeft);
+                    }
+                    PickMod.LOGGER.info(Arrays.toString(PickMod.miningPercentageMovingAverage));
+                    System.arraycopy(PickMod.miningPercentageMovingAverage, 0, PickMod.miningPercentageMovingAverage, 1, PickMod.miningPercentageMovingAverage.length-1);
+                    PickMod.miningPercentageLastMovingAverage = Arrays.stream(PickMod.miningPercentageMovingAverage).average().getAsDouble();
+                    PickMod.miningLastChecked = System.currentTimeMillis();
+                    PickMod.miningLastName = bossBar.getName();
+                }
             }
+            TODO: rethink how i'm doing this and actually add it*/
             if (addBar) filteredValues.add(bossBar);
+        }
+        /*
+        if (!miningFound) {
+            PickMod.miningPercentageMovingAverage = new double[4];
+            PickMod.miningPercentageLastMovingAverage = 0.0;
+            PickMod.miningLastChecked = 0;
+        }*/
+        if (!chargeFound) {
+            PickMod.suitCharge = -1.0f;
         }
         return filteredValues;
     }

@@ -31,7 +31,7 @@ public class ItemDisplayLockMixin {
     public float zOffset;
     @Inject(at = @At("TAIL"), method = "renderGuiItemOverlay(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/item/ItemStack;IILjava/lang/String;)V")
     public void renderGuiItemOverlay(TextRenderer renderer, ItemStack stack, int x, int y, String countLabel, CallbackInfo ci) {
-        if (stack.getOrCreateNbt().contains("PublicBukkitValues") && PickMod.config.showLock) {
+        if (stack.getOrCreateNbt().contains("PublicBukkitValues") && PickMod.config.visualTweaks.showLock) {
             if (Objects.requireNonNull(stack.getSubNbt("PublicBukkitValues")).getFloat("hypercube:nodrop") == 1.0d) {
                 MatrixStack matrixStack = new MatrixStack();
                 matrixStack.translate(0.0, 0.0, zOffset + 200.0f);

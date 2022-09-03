@@ -20,7 +20,7 @@
       "net.pickmod.PickMod"
     ],
     "modmenu": [
-      "net.pickmod.ModMenuIntegration"
+      "net.pickmod.config.ModMenuIntegration"
     ]
   },
   "mixins": [

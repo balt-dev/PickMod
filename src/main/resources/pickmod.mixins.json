@@ -11,7 +11,9 @@
     "PlayerListHudFooterAccessor",
     "InGameHudMixin",
     "ClientPlayerEntityMixin",
-    "BossBarHudMixin"
+    "BossBarHudMixin",
+    "ClientWorldMixin",
+    "DrawableHelperZOffsetAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
