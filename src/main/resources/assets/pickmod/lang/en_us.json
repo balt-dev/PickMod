@@ -22,6 +22,7 @@
   "text.autoconfig.pickmod.option.visualTweaks.potionDisplayAlignment.RIGHT_ALIGNED" : "Right Aligned",
   "text.autoconfig.pickmod.option.visualTweaks.potionDisplayOffsetX" : "Potion Display X Offset",
   "text.autoconfig.pickmod.option.visualTweaks.potionDisplayOffsetY" : "Potion Display Y Offset",
+  "text.autoconfig.pickmod.option.visualTweaks.replaceArmorWithEnergy" : "Replace Armor With Suit Charge",
   "text.autoconfig.pickmod.option.disableUnackedError": "Disable Unacknowledged Action Error",
   "text.autoconfig.pickmod.option.minutesBetweenAutoBackup": "Minutes Between Auto @backup",
   "text.autoconfig.pickmod.option.minutesBetweenAutoBackup.@Tooltip": "Set to 9 to turn off.",

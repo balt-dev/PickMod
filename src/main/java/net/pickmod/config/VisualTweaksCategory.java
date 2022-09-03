@@ -34,10 +34,9 @@ public class VisualTweaksCategory implements ConfigData {
             return new TranslatableText("text.autoconfig.pickmod.option.visualTweaks.potionDisplayAnchor." + this.name()).getString();
         }
     }
-    public boolean moveChargeToArmor = true;
     public boolean replaceHungerWithBalance = true;
     public boolean replaceExperienceWithDepth = true;
-    public boolean replaceArmorWithEnergy;
+    public boolean replaceArmorWithEnergy = true;
     public boolean moveOxygenToBubbles = true;
     public boolean potionDisplay = true;
     @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)

@@ -90,7 +90,7 @@ public abstract class BossBarHudMixin {
                 }
             } else if (chargeMatcher.find()) {
                 chargeFound = true;
-                addBar = !PickMod.config.visualTweaks.moveChargeToArmor;
+                addBar = !PickMod.config.visualTweaks.replaceArmorWithEnergy;
                 PickMod.suitCharge = Float.parseFloat(chargeMatcher.group(1));
             }/* else if (miningMatcher.find()) {
                 miningFound = true;
